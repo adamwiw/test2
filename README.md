@@ -1,23 +1,48 @@
-# Rebirth Repository
+# Single Website
 
-Initialized by Sovereign Swarm.
+A single-page website built with Angular 18.2.0.
 
-## Development Branch
-Initialized from main.
+## Development
 
-## Session Start: v0.1.1
-Started at: Wed Mar  4 16:27:03 2026
+```bash
+npm install
+npm start
+```
 
+Navigate to `http://localhost:4200/`.
 
-## Session Start: v0.1.1
-Started at: Wed Mar  4 19:01:04 2026
+## Build
 
+```bash
+npm run build
+```
 
-## Session Start: v0.1.1
-Started at: Wed Mar  4 21:55:01 2026
+The build artifacts will be stored in the `dist/` directory.
 
+## Running Tests
 
-## Session Start: v0.1.1
+```bash
+npm test
+```
+
+## Project Features
+
+- Single-page landing website
+- Gradient header design (purple to indigo)
+- Hero section
+- Responsive SCSS styling
+- Angular 18.2.0 with standalone components
+
+## Technology Stack
+
+- Angular 18.2.0
+- TypeScript 5.5.2
+- SCSS for styling
+- Karma + Jasmine for testing
+
+---
+
+**Implemented by Sovereign Swarm**
 Started at: Wed Mar  4 22:24:13 2026
 
 
