@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "bun build src/index.jsx --outdir=dist --bundle",
     "preview": "vite preview",
-    "prerender": "vite build",
+    "prerender": "bun build src/index.jsx --outdir=dist --bundle",
     "test:run": "bun test --ci --coverage --environment=jsdom --coverageThreshold='{\"global\":{\"branches\":100,\"functions\":100,\"lines\":100,\"statements\":100}}'",
     "lint": "eslint src/**/*.{js,jsx}"
   },
