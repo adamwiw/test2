@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import './Contact.css';
 
 const Contact = () => {
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',

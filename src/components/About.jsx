@@ -6,6 +6,7 @@ import './About.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
+
   const sectionRef = useRef(null);
   const heroRef = useRef(null);
   const storyRef = useRef(null);

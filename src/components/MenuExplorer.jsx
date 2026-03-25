@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import './MenuExplorer.css';
 
 const MenuExplorer = () => {
+
   const [activeCategory, setActiveCategory] = useState('hot');
   const [hoveredItem, setHoveredItem] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
