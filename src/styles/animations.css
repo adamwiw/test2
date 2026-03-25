@@ -1,0 +1,20 @@
+/* GSAP Keyframes for Hacker Cafe */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.steam {
+  width: 20px; height: 80px;
+  border-radius: 50px;
+  filter: blur(10px);
+  animation: float 3s ease-in-out infinite;
+}
+
+.coffee-bean {
+  position: absolute;
+  width: 30px; height: 20px;
+  background: url('/images/coffee-beans.webp');
+  opacity: 0.9;
+  z-index: 1;
+}
