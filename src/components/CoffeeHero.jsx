@@ -181,67 +181,76 @@ const CoffeeHero = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [scrollY, setScrollY] = useState(0);
   const [useVideo, setUseVideo] = useState(false);
+  const ctxRef = useRef(null);
 
   // GSAP Animations
-  useGSAP(() => {
-    if (!isLoaded) return;
+  useEffect(() => {
+    if (!isLoaded || !heroRef.current) return;
 
-    // Parallax on 3D scene or video
-    gsap.to('.hero-background-element', {
-      yPercent: 20,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1
-      }
-    });
+    // Create GSAP context
+    const ctx = gsap.context(() => {
+      // Parallax on 3D scene or video
+      gsap.to('.hero-background-element', {
+        yPercent: 20,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1
+        }
+      });
 
-    // Entrance timeline
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      // Entrance timeline
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-    tl.fromTo(titleRef.current,
-      { y: 150, opacity: 0, rotationX: -60, scale: 0.7, skewY: 7 },
-      { y: 0, opacity: 1, rotationX: 0, scale: 1, skewY: 0, duration: 1.8, delay: 0.3 }
-    )
-    .fromTo(subtitleRef.current,
-      { y: 100, opacity: 0, scale: 0.8, filter: 'blur(10px)' },
-      { y: 0, opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.2 }, '-=1.2'
-    )
-    .fromTo(buttonsRef.current.children,
-      { y: 80, opacity: 0, stagger: 0.2, scale: 0.85, rotationX: -15 },
-      { y: 0, opacity: 1, scale: 1, rotationX: 0, duration: 0.9, stagger: 0.15 }, '-=0.9'
-    )
-    .fromTo(statsRef.current.children,
-      { y: 60, opacity: 0, stagger: 0.1, scale: 0.9 },
-      { y: 0, opacity: 1, scale: 1, duration: 0.7, stagger: 0.08 }, '-=0.7'
-    )
-    .fromTo(featuresRef.current.children,
-      { x: -50, opacity: 0, stagger: 0.1 },
-      { x: 0, opacity: 1, duration: 0.6, stagger: 0.08 }, '-=0.5'
-    );
+      tl.fromTo(titleRef.current,
+        { y: 150, opacity: 0, rotationX: -60, scale: 0.7, skewY: 7 },
+        { y: 0, opacity: 1, rotationX: 0, scale: 1, skewY: 0, duration: 1.8, delay: 0.3 }
+      )
+      .fromTo(subtitleRef.current,
+        { y: 100, opacity: 0, scale: 0.8, filter: 'blur(10px)' },
+        { y: 0, opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.2 }, '-=1.2'
+      )
+      .fromTo(buttonsRef.current.children,
+        { y: 80, opacity: 0, stagger: 0.2, scale: 0.85, rotationX: -15 },
+        { y: 0, opacity: 1, scale: 1, rotationX: 0, duration: 0.9, stagger: 0.15 }, '-=0.9'
+      )
+      .fromTo(statsRef.current.children,
+        { y: 60, opacity: 0, stagger: 0.1, scale: 0.9 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.7, stagger: 0.08 }, '-=0.7'
+      )
+      .fromTo(featuresRef.current.children,
+        { x: -50, opacity: 0, stagger: 0.1 },
+        { x: 0, opacity: 1, duration: 0.6, stagger: 0.08 }, '-=0.5'
+      );
 
-    // Floating animation for decorative elements
-    gsap.to('.hero-particle', {
-      y: 'random(-40, 40)',
-      x: 'random(-40, 40)',
-      duration: 'random(4, 8)',
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine.inOut',
-      stagger: { amount: 4, from: 'random' }
-    });
+      // Floating animation for decorative elements
+      gsap.to('.hero-particle', {
+        y: 'random(-40, 40)',
+        x: 'random(-40, 40)',
+        duration: 'random(4, 8)',
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        stagger: { amount: 4, from: 'random' }
+      });
 
-    // Mouse parallax for title
-    gsap.to(titleRef.current, {
-      x: mousePosition.x * 0.15,
-      y: mousePosition.y * 0.15,
-      duration: 0.8,
-      ease: 'power2.out'
-    });
+      // Mouse parallax for title
+      gsap.to(titleRef.current, {
+        x: mousePosition.x * 0.15,
+        y: mousePosition.y * 0.15,
+        duration: 0.8,
+        ease: 'power2.out'
+      });
+    }, heroRef);
+
+    ctxRef.current = ctx;
 
     return () => {
+      if (ctxRef.current) {
+        ctxRef.current.revert();
+      }
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, [isLoaded, mousePosition]);
