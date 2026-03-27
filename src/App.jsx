@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useState } from 'react';
 import { SmartPreloader } from './utils/codeSplitting';
 import Navbar from './components/Navbar';
 import ThemeToggle from './components/ThemeToggle';
@@ -28,10 +28,12 @@ const SectionLoader = ({ height = 'auto' }) => (
 );
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
   return (
     <div>
       <SmartPreloader />
-      <LoadingScreen />
+      {loading && <LoadingScreen onComplete={() => setLoading(false)} />}
       <Navbar />
       <ThemeToggle />
       <CoffeeHero />
