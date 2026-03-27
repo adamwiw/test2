@@ -15,7 +15,13 @@ const About = () => {
   const teamRef = useRef(null);
   const valuesRef = useRef(null);
   const parallaxRef = useRef(null);
-  
+  const particlesRef = useRef([...Array(20)].map(() => ({
+    left: Math.random() * 100,
+    top: Math.random() * 100,
+    delay: Math.random() * 3,
+    size: Math.random() * 4 + 2
+  })));
+
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [scrollProgress, setScrollProgress] = useState(0);
   const [hoveredTeam, setHoveredTeam] = useState(null);
@@ -399,13 +405,13 @@ const About = () => {
 
       {/* Floating particles */}
       <div className="particles-container">
-        {[...Array(20)].map((_, i) => (
+        {particlesRef.current.map((particle, i) => (
           <div key={i} className="particle" style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 3}s`,
-            width: `${Math.random() * 4 + 2}px`,
-            height: `${Math.random() * 4 + 2}px`
+            left: `${particle.left}%`,
+            top: `${particle.top}%`,
+            animationDelay: `${particle.delay}s`,
+            width: `${particle.size}px`,
+            height: `${particle.size}px`
           }} />
         ))}
       </div>
