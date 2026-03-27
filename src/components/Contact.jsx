@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 import './Contact.css';
 
 const Contact = () => {

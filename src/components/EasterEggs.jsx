@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 import './EasterEggs.css';
 
 /**
