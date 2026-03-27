@@ -1,0 +1,460 @@
+/* ========================================
+   Hacker Café Footer Styles
+   ======================================== */
+
+.footer {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+  color: #f5f5f5;
+  padding: 4rem 2rem 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated background pattern */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle at 20% 50%, rgba(212, 165, 116, 0.05) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 80%, rgba(212, 165, 116, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.footer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #d4a574, #8b6914, #d4a574);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ========================================
+   Brand Section
+   ======================================== */
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer-logo {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #d4a574 0%, #f5deb3 50%, #d4a574 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  letter-spacing: -0.5px;
+  animation: logoGlow 3s ease-in-out infinite;
+}
+
+@keyframes logoGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba(212, 165, 116, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(212, 165, 116, 0.6));
+  }
+}
+
+.footer-tagline {
+  font-size: 1.1rem;
+  color: #b8b8b8;
+  font-style: italic;
+  margin: 0;
+}
+
+.footer-decoration {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.coffee-bean {
+  font-size: 1.5rem;
+  animation: beanBounce 1.5s ease-in-out infinite;
+}
+
+.coffee-bean:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.coffee-bean:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes beanBounce {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(10deg);
+  }
+}
+
+/* ========================================
+   Footer Sections
+   ======================================== */
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.footer-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #d4a574;
+  margin: 0;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.footer-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, #d4a574, transparent);
+  transition: width 0.3s ease;
+}
+
+.footer-section:hover .footer-title::after {
+  width: 100%;
+}
+
+/* ========================================
+   Links
+   ======================================== */
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-link {
+  color: #c8c8c8;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.footer-link::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+  color: #d4a574;
+}
+
+.footer-link:hover::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.footer-link:hover {
+  color: #d4a574;
+}
+
+/* ========================================
+   Social Icons
+   ======================================== */
+
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: rgba(212, 165, 116, 0.1);
+  border: 2px solid rgba(212, 165, 116, 0.3);
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.social-icon:hover {
+  background: rgba(212, 165, 116, 0.2);
+  border-color: #d4a574;
+  box-shadow: 0 0 20px rgba(212, 165, 116, 0.4);
+}
+
+.icon-emoji {
+  font-size: 1.5rem;
+  filter: grayscale(30%);
+  transition: filter 0.3s ease;
+}
+
+.social-icon:hover .icon-emoji {
+  filter: grayscale(0%);
+}
+
+/* ========================================
+   Newsletter
+   ======================================== */
+
+.newsletter-section {
+  background: rgba(212, 165, 116, 0.05);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 165, 116, 0.2);
+}
+
+.newsletter-text {
+  color: #b8b8b8;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.newsletter-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #f5f5f5;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.newsletter-input::placeholder {
+  color: #888;
+}
+
+.newsletter-input:focus {
+  outline: none;
+  border-color: #d4a574;
+  box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.newsletter-button {
+  padding: 0.875rem 2rem;
+  background: linear-gradient(135deg, #d4a574, #8b6914);
+  border: none;
+  border-radius: 8px;
+  color: #1a1a1a;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.newsletter-button:hover {
+  background: linear-gradient(135deg, #e5b684, #a07d14);
+  box-shadow: 0 5px 20px rgba(212, 165, 116, 0.4);
+  transform: translateY(-2px);
+}
+
+.newsletter-button:active {
+  transform: translateY(0);
+}
+
+.success-message {
+  color: #4ade80;
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0;
+}
+
+/* ========================================
+   Footer Bottom
+   ======================================== */
+
+.footer-bottom {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.copyright {
+  color: #888;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.legal-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.legal-link {
+  color: #888;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.legal-link:hover {
+  color: #d4a574;
+}
+
+.separator {
+  color: #555;
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+@media (max-width: 1024px) {
+  .footer-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 3rem 1.5rem 1rem;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footer-logo {
+    font-size: 2rem;
+  }
+
+  .footer-title {
+    font-size: 1.1rem;
+  }
+
+  .newsletter-form {
+    flex-direction: row;
+  }
+
+  .footer-bottom-content {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 2rem 1rem 1rem;
+  }
+
+  .footer-logo {
+    font-size: 1.75rem;
+  }
+
+  .footer-tagline {
+    font-size: 1rem;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  .social-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .icon-emoji {
+    font-size: 1.25rem;
+  }
+
+  .newsletter-form {
+    flex-direction: column;
+  }
+
+  .legal-links {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .separator {
+    display: none;
+  }
+}
+
+/* ========================================
+   Print Styles
+   ======================================== */
+
+@media print {
+  .footer {
+    display: none;
+  }
+}
+
+/* ========================================
+   Accessibility - Reduced Motion
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-logo,
+  .coffee-bean,
+  .social-icon,
+  .footer-link {
+    animation: none;
+    transition: none;
+  }
+}

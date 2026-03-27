@@ -1,0 +1,741 @@
+/* Easter Eggs Component Styling */
+
+.easter-eggs-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  
+  &.unlocked {
+    animation: unlock-pulse 0.5s ease-out;
+  }
+  
+  &.secret-mode-active {
+    cursor: crosshair;
+  }
+}
+
+/* Secret Overlay */
+.secret-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.9) 0%, rgba(255, 0, 128, 0.9) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+  animation: secret-appear 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(255, 255, 255, 0.03) 10px,
+      rgba(255, 255, 255, 0.03) 20px
+    );
+    animation: stripes-move 20s linear infinite;
+  }
+}
+
+.secret-content {
+  position: relative;
+  text-align: center;
+  padding: 60px 80px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 20px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 0 60px rgba(255, 0, 128, 0.5),
+    0 0 100px rgba(138, 43, 226, 0.3),
+    inset 0 0 60px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  animation: content-glow 2s ease-in-out infinite;
+}
+
+.secret-title {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+  margin: 0 0 30px 0;
+  text-shadow: 
+    0 0 10px #ff0080,
+    0 0 20px #ff0080,
+    0 0 30px #ff0080,
+    0 0 40px #ff0080;
+  animation: title-shimmer 1.5s ease-in-out infinite;
+  letter-spacing: 4px;
+}
+
+.secret-subtitle {
+  font-size: 1.8rem;
+  color: #ffd700;
+  margin-top: 30px;
+  font-weight: 600;
+  animation: subtitle-float 2s ease-in-out infinite;
+}
+
+/* Secret Animation Container */
+.secret-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Particles */
+.easter-egg-particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  animation: particle-explode 3s ease-out forwards;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: 50%;
+    filter: blur(2px);
+  }
+}
+
+@for $i from 1 through 10 {
+  .easter-egg-particle:nth-child(10n + #{$i}) {
+    background: hsl($i * 36, 100%, 50%);
+    box-shadow: 0 0 20px hsl($i * 36, 100%, 50%);
+  }
+}
+
+/* Hidden Trigger Area */
+.hidden-trigger {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 10000;
+  
+  &:hover {
+    opacity: 0.1;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    border-radius: 50%;
+  }
+}
+
+/* Konami Progress Indicator */
+.konami-progress {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  padding: 15px 30px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 50px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  animation: progress-appear 0.3s ease-out;
+}
+
+.progress-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  
+  &.active {
+    background: #00ff88;
+    box-shadow: 0 0 10px #00ff88;
+    transform: scale(1.3);
+  }
+}
+
+/* Coffee Cup Cursor */
+.coffee-cup-cursor {
+  position: fixed;
+  font-size: 2rem;
+  pointer-events: none;
+  z-index: 10001;
+  transform: translate(-50%, -50%);
+  animation: coffee-bob 0.5s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 10px rgba(139, 69, 19, 0.8));
+}
+
+/* Pixel Art Overlay */
+.pixel-art-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10002;
+  animation: pixel-fade-in 0.5s ease-out;
+}
+
+.pixel-art-container {
+  position: relative;
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 10px;
+  border: 3px solid #4ecdc4;
+  box-shadow: 0 0 30px rgba(78, 205, 196, 0.5);
+}
+
+.pixel {
+  position: absolute;
+  background: #6f4e37;
+  box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+}
+
+.pixel-art-message {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #4ecdc4;
+  font-size: 1.2rem;
+  font-weight: bold;
+  white-space: nowrap;
+  animation: pixel-message-blink 1s ease-in-out infinite;
+}
+
+/* Developer Mode Overlay */
+.dev-mode-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10003;
+  animation: dev-fade-in 0.3s ease-out;
+}
+
+.dev-mode-panel {
+  background: #1e1e1e;
+  color: #d4d4d4;
+  padding: 30px;
+  border-radius: 10px;
+  border: 2px solid #007acc;
+  box-shadow: 0 0 40px rgba(0, 122, 204, 0.6);
+  max-width: 500px;
+  width: 90%;
+  font-family: 'Courier New', monospace;
+  
+  h3 {
+    margin: 0 0 20px 0;
+    color: #007acc;
+    font-size: 1.5rem;
+  }
+  
+  h4 {
+    margin: 20px 0 10px 0;
+    color: #4ecdc4;
+  }
+  
+  p {
+    margin: 8px 0;
+    font-size: 0.9rem;
+    
+    strong {
+      color: #ffd700;
+    }
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+      margin: 8px 0;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+  
+  kbd {
+    background: #333;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    color: #fff;
+    box-shadow: 0 2px 0 #222;
+  }
+}
+
+/* Body Effects */
+body.konami-unlocked {
+  animation: body-rainbow 5s linear infinite;
+}
+
+body.rainbow-mode {
+  animation: rainbow-bg 3s linear infinite;
+  
+  * {
+    text-shadow: 0 0 3px currentColor, 0 0 6px currentColor !important;
+  }
+}
+
+body.matrix-rain {
+  background: #000 !important;
+  
+  &::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 50px,
+      rgba(0, 255, 0, 0.03) 50px,
+      rgba(0, 255, 0, 0.03) 100px
+    );
+    animation: matrix-scroll 20s linear infinite;
+    pointer-events: none;
+  }
+}
+
+body.confetti-blast {
+  animation: confetti-shake 0.5s ease-in-out;
+  
+  &::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: 
+      radial-gradient(circle at 20% 80%, #ff6b6b 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, #4ecdc4 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, #ffe66d 0%, transparent 50%),
+      radial-gradient(circle at 60% 60%, #95e1d3 0%, transparent 50%);
+    animation: confetti-spin 3s linear infinite;
+    pointer-events: none;
+  }
+}
+
+body.neon-glow {
+  * {
+    text-shadow: 
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 40px currentColor !important;
+  }
+  
+  .container, .card, button, input {
+    box-shadow: 
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 30px currentColor !important;
+  }
+}
+
+body.retro-glitch {
+  animation: glitch-skew 0.5s linear infinite;
+  
+  &::before, &::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  
+  &::before {
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 0, 0, 0.1) 2px,
+      rgba(255, 0, 0, 0.1) 4px
+    );
+    animation: glitch-shift 0.1s steps(5) infinite;
+  }
+  
+  &::after {
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(0, 255, 255, 0.1) 3px,
+      rgba(0, 255, 255, 0.1) 6px
+    );
+    animation: glitch-shift 0.15s steps(5) infinite reverse;
+  }
+}
+
+body.coffee-spill {
+  &::before {
+    content: '';
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30%;
+    background: linear-gradient(to top, rgba(101, 67, 33, 0.8), transparent);
+    animation: coffee-spill-rise 2s ease-out forwards;
+    pointer-events: none;
+  }
+}
+
+body.starfield {
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+      radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+      radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+      radial-gradient(2px 2px at 160px 120px, rgba(255,255,255,0.9), transparent),
+      radial-gradient(1px 1px at 230px 80px, #fff, transparent),
+      radial-gradient(2px 2px at 300px 150px, rgba(255,255,255,0.7), transparent);
+    background-size: 350px 200px;
+    animation: star-twinkle 3s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+}
+
+body.bubble-mode {
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle at 20% 30%, rgba(78, 205, 196, 0.3) 0%, transparent 20%),
+                      radial-gradient(circle at 80% 70%, rgba(255, 107, 107, 0.3) 0%, transparent 20%),
+                      radial-gradient(circle at 50% 50%, rgba(255, 230, 109, 0.2) 0%, transparent 25%);
+    background-size: 200px 200px;
+    animation: bubble-float 10s ease-in-out infinite;
+    pointer-events: none;
+  }
+}
+
+body.fireworks {
+  &::before {
+    content: '✨🎆🎇✨🎆🎇✨';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 3rem;
+    animation: fireworks-explode 2s ease-out infinite;
+    pointer-events: none;
+    text-align: center;
+    line-height: 100vh;
+  }
+}
+
+body.aurora-borealis {
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      45deg,
+      rgba(0, 255, 127, 0.3),
+      rgba(0, 191, 255, 0.3),
+      rgba(138, 43, 226, 0.3),
+      rgba(255, 20, 147, 0.3)
+    );
+    background-size: 400% 400%;
+    animation: aurora-flow 8s ease-in-out infinite;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+}
+
+body.secret-mode {
+  cursor: crosshair;
+  
+  &::before {
+    content: '🔍 Secret Mode Active';
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 107, 107, 0.9);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    z-index: 10000;
+    animation: secret-mode-blink 1s ease-in-out infinite;
+  }
+}
+
+body.night-mode {
+  background: #0a0a0a !important;
+  color: #e0e0e0 !important;
+  
+  * {
+    background-color: rgba(30, 30, 30, 0.8) !important;
+    border-color: rgba(100, 100, 100, 0.5) !important;
+    color: #e0e0e0 !important;
+  }
+}
+
+/* Animations */
+@keyframes unlock-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes secret-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-10deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes stripes-move {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-50px, 50px); }
+}
+
+@keyframes content-glow {
+  0%, 100% {
+    box-shadow: 
+      0 0 60px rgba(255, 0, 128, 0.5),
+      0 0 100px rgba(138, 43, 226, 0.3),
+      inset 0 0 60px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 80px rgba(255, 0, 128, 0.7),
+      0 0 120px rgba(138, 43, 226, 0.5),
+      inset 0 0 80px rgba(255, 255, 255, 0.2);
+  }
+}
+
+@keyframes title-shimmer {
+  0%, 100% {
+    text-shadow: 
+      0 0 10px #ff0080,
+      0 0 20px #ff0080,
+      0 0 30px #ff0080,
+      0 0 40px #ff0080;
+  }
+  50% {
+    text-shadow: 
+      0 0 20px #ff0080,
+      0 0 40px #ff0080,
+      0 0 60px #ff0080,
+      0 0 80px #ff0080,
+      0 0 100px #00ffff;
+  }
+}
+
+@keyframes subtitle-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes particle-explode {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx, 100px), var(--ty, -100px)) scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes progress-appear {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes body-rainbow {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+@keyframes rainbow-bg {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+@keyframes matrix-scroll {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes confetti-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px) rotate(-1deg); }
+  75% { transform: translateX(5px) rotate(1deg); }
+}
+
+@keyframes confetti-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes glitch-skew {
+  0%, 100% { transform: skew(0deg); }
+  20% { transform: skew(-1deg); }
+  40% { transform: skew(1deg); }
+  60% { transform: skew(-0.5deg); }
+  80% { transform: skew(0.5deg); }
+}
+
+@keyframes glitch-shift {
+  0% { transform: translateX(-5px); }
+  100% { transform: translateX(5px); }
+}
+
+@keyframes coffee-bob {
+  0% { transform: translate(-50%, -50%) rotate(-5deg); }
+  100% { transform: translate(-50%, -50%) rotate(5deg); }
+}
+
+@keyframes pixel-fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes pixel-message-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes dev-fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes coffee-spill-rise {
+  0% { height: 0%; opacity: 0; }
+  20% { opacity: 1; }
+  100% { height: 30%; opacity: 0.8; }
+}
+
+@keyframes star-twinkle {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+@keyframes bubble-float {
+  0%, 100% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+}
+
+@keyframes fireworks-explode {
+  0% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0; transform: scale(1); }
+}
+
+@keyframes aurora-flow {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+@keyframes secret-mode-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .secret-title {
+    font-size: 2.5rem;
+  }
+  
+  .secret-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .secret-content {
+    padding: 40px 30px;
+    margin: 20px;
+  }
+  
+  .konami-progress {
+    bottom: 20px;
+    padding: 10px 20px;
+  }
+  
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .dev-mode-panel {
+    padding: 20px;
+    font-size: 0.85rem;
+    
+    h3 {
+      font-size: 1.3rem;
+    }
+  }
+}
