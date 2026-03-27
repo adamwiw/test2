@@ -177,6 +177,14 @@ const CoffeeHero = () => {
   const featuresRef = useRef(null);
   const contentRef = useRef(null);
   const videoRef = useRef(null);
+  const particlesRef = useRef([...Array(50)].map(() => ({
+    left: Math.random() * 100,
+    top: Math.random() * 100,
+    width: Math.random() * 20 + 5,
+    height: Math.random() * 20 + 5,
+    delay: Math.random() * 3,
+    blur: Math.random() * 2
+  })));
   const [isLoaded, setIsLoaded] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [scrollY, setScrollY] = useState(0);
@@ -409,17 +417,17 @@ const CoffeeHero = () => {
 
       {/* Enhanced Floating Particles */}
       <div className="absolute inset-0 z-20 pointer-events-none">
-        {[...Array(50)].map((_, i) => (
+        {particlesRef.current.map((particle, i) => (
           <div
             key={i}
             className="hero-particle absolute rounded-full bg-white/10 backdrop-blur-sm"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              width: `${Math.random() * 20 + 5}px`,
-              height: `${Math.random() * 20 + 5}px`,
-              animationDelay: `${Math.random() * 3}s`,
-              filter: `blur(${Math.random() * 2}px)`
+              left: `${particle.left}%`,
+              top: `${particle.top}%`,
+              width: `${particle.width}px`,
+              height: `${particle.height}px`,
+              animationDelay: `${particle.delay}s`,
+              filter: `blur(${particle.blur}px)`
             }}
           />
         ))}
