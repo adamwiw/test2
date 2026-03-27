@@ -18,12 +18,8 @@ const About = () => {
   
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [activeStat, setActiveStat] = useState(null);
   const [hoveredTeam, setHoveredTeam] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [currentTeamIndex, setCurrentTeamIndex] = useState(0);
-  const [autoplay, setAutoplay] = useState(true);
-  const carouselRef = useRef(null);
 
   // Mouse tracking for parallax and glow effects
   const handleMouseMove = useCallback((e) => {
@@ -32,35 +28,6 @@ const About = () => {
     const y = (clientY / window.innerHeight - 0.5) * 30;
     setMousePosition({ x, y });
   }, []);
-
-  // Carousel navigation
-  const nextTeamMember = useCallback(() => {
-    setCurrentTeamIndex((prev) => (prev + 1) % teamMembers.length);
-    setAutoplay(false);
-  }, []);
-
-  const prevTeamMember = useCallback(() => {
-    setCurrentTeamIndex((prev) => (prev - 1 + teamMembers.length) % teamMembers.length);
-    setAutoplay(false);
-  }, []);
-
-  // Autoplay carousel
-  useEffect(() => {
-    if (!autoplay) return;
-    const interval = setInterval(() => {
-      setCurrentTeamIndex((prev) => (prev + 1) % teamMembers.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [autoplay]);
-
-  // Pause autoplay on hover
-  const handleCarouselHover = (hovering) => {
-    if (hovering) {
-      setAutoplay(false);
-    } else {
-      setAutoplay(true);
-    }
-  };
 
   // Scroll progress tracking
   useEffect(() => {
@@ -149,80 +116,81 @@ const About = () => {
       });
 
       // Story section with text reveal and image parallax
-      gsap.from('.story-section', {
-        opacity: 0,
-        y: 100,
-        duration: 1,
-        scrollTrigger: {
-          trigger: storyRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse'
+      gsap.fromTo('.story-container', 
+        { opacity: 0, y: 100 },
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 1,
+          scrollTrigger: {
+            trigger: storyRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
 
-      gsap.from('.story-text', {
-        opacity: 0,
-        x: -50,
-        duration: 0.8,
-        stagger: 0.2,
-        scrollTrigger: {
-          trigger: '.story-content',
-          start: 'top 80%',
-          toggleActions: 'play none none reverse'
+      gsap.fromTo('.story-text', 
+        { opacity: 0, x: -50 },
+        {
+          opacity: 1, x: 0, duration: 0.8, stagger: 0.2,
+          scrollTrigger: {
+            trigger: '.story-content',
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
 
-      gsap.from('.story-image-wrapper', {
-        opacity: 0,
-        scale: 0.8,
-        rotation: -5,
-        duration: 1.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: storyRef.current,
-          start: 'top 70%',
-          toggleActions: 'play none none reverse'
+      gsap.fromTo('.story-image-wrapper', 
+        { opacity: 0, scale: 0.8, rotation: -5 },
+        {
+          opacity: 1, scale: 1, rotation: 0, duration: 1.2, ease: 'power3.out',
+          scrollTrigger: {
+            trigger: storyRef.current,
+            start: 'top 75%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
 
       // Timeline with 3D card effects
-      gsap.from('.timeline-section', {
-        opacity: 0,
-        y: 80,
-        duration: 1,
-        scrollTrigger: {
-          trigger: timelineRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse'
+      gsap.fromTo('.timeline-container', 
+        { opacity: 0, y: 80 },
+        {
+          opacity: 1, y: 0, duration: 1,
+          scrollTrigger: {
+            trigger: timelineRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
 
-      gsap.from('.timeline-card', {
-        opacity: 0,
-        y: 150,
-        rotationX: -15,
-        duration: 1,
-        stagger: 0.3,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: timelineRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none reverse'
+      gsap.fromTo('.timeline-card', 
+        { opacity: 0, y: 150, rotationX: -15 },
+        {
+          opacity: 1, y: 0, rotationX: 0, duration: 1, stagger: 0.3, ease: 'power3.out',
+          scrollTrigger: {
+            trigger: timelineRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
 
       // Animated timeline line
-      gsap.from('.timeline-line', {
-        scaleY: 0,
-        transformOrigin: 'top center',
-        duration: 2,
-        ease: 'power2.inOut',
-        scrollTrigger: {
-          trigger: timelineRef.current,
-          start: 'top 70%',
-          toggleActions: 'play none none reverse'
+      gsap.fromTo('.timeline-line', 
+        { scaleY: 0 },
+        {
+          scaleY: 1, transformOrigin: 'top center', duration: 2, ease: 'power2.inOut',
+          scrollTrigger: {
+            trigger: timelineRef.current,
+            start: 'top 75%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
 
       // Statistics with counter animation and hover effects
       const statNumbers = document.querySelectorAll('.stat-number');
@@ -238,9 +206,7 @@ const About = () => {
           scrollTrigger: {
             trigger: statsRef.current,
             start: 'top 80%',
-            toggleActions: 'play none none reverse',
-            onEnter: () => setActiveStat(stat.parentElement.dataset.stat),
-            onLeave: () => setActiveStat(null)
+            toggleActions: 'play none none none'
           },
           onUpdate: () => {
             stat.innerHTML = obj.value.toLocaleString();
@@ -248,71 +214,67 @@ const About = () => {
         });
       });
 
-      gsap.from('.stat-card', {
-        opacity: 0,
-        y: 100,
-        scale: 0.9,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: 'back.out(1.2)',
-        scrollTrigger: {
-          trigger: statsRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse'
+      gsap.fromTo('.stat-card', 
+        { opacity: 0, y: 100, scale: 0.9 },
+        {
+          opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.15, ease: 'back.out(1.2)',
+          scrollTrigger: {
+            trigger: statsRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
 
       // Team section with 3D tilt effects
-      gsap.from('.team-section', {
-        opacity: 0,
-        y: 80,
-        duration: 1,
-        scrollTrigger: {
-          trigger: teamRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse'
+      gsap.fromTo('.team-container', 
+        { opacity: 0, y: 80 },
+        {
+          opacity: 1, y: 0, duration: 1,
+          scrollTrigger: {
+            trigger: teamRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
 
-      gsap.from('.team-card', {
-        opacity: 0,
-        y: 100,
-        rotationY: -30,
-        duration: 1,
-        stagger: 0.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: teamRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none reverse'
+      gsap.fromTo('.team-card', 
+        { opacity: 0, y: 100, rotationY: -15 },
+        {
+          opacity: 1, y: 0, rotationY: 0, duration: 1, stagger: 0.1, ease: 'power3.out',
+          scrollTrigger: {
+            trigger: teamRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
 
       // Values section with staggered reveal
-      gsap.from('.values-section', {
-        opacity: 0,
-        y: 80,
-        duration: 1,
-        scrollTrigger: {
-          trigger: valuesRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse'
+      gsap.fromTo('.values-container', 
+        { opacity: 0, y: 80 },
+        {
+          opacity: 1, y: 0, duration: 1,
+          scrollTrigger: {
+            trigger: valuesRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
 
-      gsap.from('.value-card', {
-        opacity: 0,
-        y: 60,
-        scale: 0.95,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: valuesRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse'
+      gsap.fromTo('.value-card', 
+        { opacity: 0, y: 60, scale: 0.95 },
+        {
+          opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.15, ease: 'power2.out',
+          scrollTrigger: {
+            trigger: valuesRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
         }
-      });
+      );
 
       // Floating particles animation
       gsap.to('.particle', {
@@ -452,9 +414,15 @@ const About = () => {
       <div ref={heroRef} className="about-hero">
         <div className="parallax-layer-1 hero-bg-decoration" />
         <div className="parallax-layer-2 hero-shapes">
-          <div className="shape shape-1" />
-          <div className="shape shape-2" />
-          <div className="shape shape-3" />
+          <div className="floating-image-wrapper shape-1">
+            <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&q=80" alt="Cafe Interior" className="hero-floating-img" />
+          </div>
+          <div className="floating-image-wrapper shape-2">
+            <img src="https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?w=800&q=80" alt="Barista Crafting" className="hero-floating-img" />
+          </div>
+          <div className="floating-image-wrapper shape-3">
+            <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80" alt="Coffee Beans" className="hero-floating-img" />
+          </div>
         </div>
         
         <div className="about-hero-content">
@@ -574,8 +542,6 @@ const About = () => {
                 key={index} 
                 className="stat-card"
                 data-stat={stat.stat}
-                onMouseEnter={() => setActiveStat(stat.stat)}
-                onMouseLeave={() => setActiveStat(null)}
               >
                 <div className="stat-icon">{stat.icon}</div>
                 <div className="stat-number" data-target={stat.target}>0</div>
@@ -597,97 +563,46 @@ const About = () => {
             <div className="title-underline" />
           </div>
           
-          <div 
-            className="team-carousel-container" 
-            ref={carouselRef}
-            onMouseEnter={() => handleCarouselHover(true)}
-            onMouseLeave={() => handleCarouselHover(false)}
-          >
-            <div className="team-carousel-wrapper">
-              <div className="team-carousel-track" style={{
-                transform: `translateX(-${currentTeamIndex * 100}%)`,
-                transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
-              }}>
-                {teamMembers.map((member, index) => (
-                  <div 
-                    key={index} 
-                    className="team-carousel-slide"
-                    onMouseEnter={() => setHoveredTeam(index)}
-                    onMouseLeave={() => setHoveredTeam(null)}
-                  >
-                    <div className="team-card-large">
-                      <div className="team-image-wrapper">
-                        <div className="team-image-large">{member.image}</div>
-                        <div className="team-image-glow-large" />
-                      </div>
-                      <div className="team-info-large">
-                        <h3 className="team-name-large">{member.name}</h3>
-                        <p className="team-role-large">{member.role}</p>
-                        <p className="team-bio-large">{member.bio}</p>
-                        <div className="team-social-large">
-                          <a href={member.social.email} className="social-link-large" aria-label="Email">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                              <polyline points="22,6 12,13 2,6" />
-                            </svg>
-                          </a>
-                          <a href={member.social.linkedin} className="social-link-large" aria-label="LinkedIn">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                              <rect x="2" y="9" width="4" height="12" />
-                              <circle cx="4" cy="4" r="2" />
-                            </svg>
-                          </a>
-                          <a href={member.social.instagram} className="social-link-large" aria-label="Instagram">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                            </svg>
-                          </a>
-                        </div>
-                      </div>
-                      <div className="team-card-glow-large" style={{ opacity: hoveredTeam === index ? 1 : 0 }} />
-                    </div>
-                  </div>
-                ))}
+          <div className="team-grid">
+            {teamMembers.map((member, index) => (
+              <div 
+                key={index} 
+                className="team-card"
+                onMouseEnter={() => setHoveredTeam(index)}
+                onMouseLeave={() => setHoveredTeam(null)}
+              >
+                <div className="team-image-wrapper">
+                  <div className="team-image">{member.image}</div>
+                  <div className="team-image-glow" />
+                </div>
+                <h3 className="team-name">{member.name}</h3>
+                <p className="team-role">{member.role}</p>
+                <p className="team-bio">{member.bio}</p>
+                <div className="team-social">
+                  <a href={member.social.email} className="social-link" aria-label="Email">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                      <polyline points="22,6 12,13 2,6" />
+                    </svg>
+                  </a>
+                  <a href={member.social.linkedin} className="social-link" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                      <rect x="2" y="9" width="4" height="12" />
+                      <circle cx="4" cy="4" r="2" />
+                    </svg>
+                  </a>
+                  <a href={member.social.instagram} className="social-link" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                    </svg>
+                  </a>
+                </div>
+                <div className="team-card-glow" style={{ opacity: hoveredTeam === index ? 1 : 0 }} />
               </div>
-            </div>
-            
-            {/* Navigation Arrows */}
-            <button 
-              className="carousel-nav prev" 
-              onClick={prevTeamMember}
-              aria-label="Previous team member"
-            >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polyline points="15,18 9,12 15,6" />
-              </svg>
-            </button>
-            <button 
-              className="carousel-nav next" 
-              onClick={nextTeamMember}
-              aria-label="Next team member"
-            >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polyline points="9,6 15,12 9,18" />
-              </svg>
-            </button>
-            
-            {/* Dots Indicator */}
-            <div className="carousel-dots">
-              {teamMembers.map((_, index) => (
-                <button
-                  key={index}
-                  className={`carousel-dot ${index === currentTeamIndex ? 'active' : ''}`}
-                  onClick={() => {
-                    setCurrentTeamIndex(index);
-                    setAutoplay(false);
-                  }}
-                  aria-label={`Go to team member ${index + 1}`}
-                />
-              ))}
-            </div>
+            ))}
           </div>
         </div>
       </div>

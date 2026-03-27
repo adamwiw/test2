@@ -235,14 +235,6 @@ const CoffeeHero = () => {
         ease: 'sine.inOut',
         stagger: { amount: 4, from: 'random' }
       });
-
-      // Mouse parallax for title
-      gsap.to(titleRef.current, {
-        x: mousePosition.x * 0.15,
-        y: mousePosition.y * 0.15,
-        duration: 0.8,
-        ease: 'power2.out'
-      });
     }, heroRef);
 
     ctxRef.current = ctx;
@@ -251,9 +243,20 @@ const CoffeeHero = () => {
       if (ctxRef.current) {
         ctxRef.current.revert();
       }
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-  }, [isLoaded, mousePosition]);
+  }, [isLoaded]);
+
+  // Separate mouse parallax effect — lightweight, no timeline rebuilds
+  useEffect(() => {
+    if (!titleRef.current) return;
+    gsap.to(titleRef.current, {
+      x: mousePosition.x * 0.15,
+      y: mousePosition.y * 0.15,
+      duration: 0.8,
+      ease: 'power2.out',
+      overwrite: 'auto'
+    });
+  }, [mousePosition]);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -336,7 +339,7 @@ const CoffeeHero = () => {
   return (
     <section 
       ref={heroRef} 
-      className="hero-section min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-900"
+      className="hero-section min-h-[100svh] py-24 flex items-center justify-center relative overflow-x-hidden overflow-y-clip bg-gradient-to-br from-gray-900 via-black to-gray-900"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >

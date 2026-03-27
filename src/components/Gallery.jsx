@@ -95,7 +95,11 @@ const Gallery = () => {
   }, [selectedCategory]);
 
   useEffect(() => {
-    animateEntrance();
+    // Only run entrance animation if we are changing filters
+    // The main entrance is handled by ScrollTrigger below
+    if (itemsRef.current.length > 0 && selectedCategory !== 'all') {
+      animateEntrance();
+    }
   }, [filteredImages]);
 
   // Mouse tracking for parallax effect
@@ -108,46 +112,44 @@ const Gallery = () => {
 
   // GSAP ScrollTrigger animations
   useEffect(() => {
-    if (!galleryRef.current) return;
+    if (!galleryRef.current || itemsRef.current.length === 0) return;
 
-    // Parallax effect on grid
-    gsap.to(gridRef.current, {
-      yPercent: -15,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: galleryRef.current,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 1
-      }
+    // Safety: ensure items are visible even if ScrollTrigger never fires
+    const safetyTimer = setTimeout(() => {
+      itemsRef.current.forEach(el => {
+        if (el) {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        }
+      });
+    }, 1500);
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(itemsRef.current.filter(Boolean),
+        { 
+          opacity: 0, 
+          y: 60, 
+          scale: 0.95
+        },
+        { 
+          opacity: 1, 
+          y: 0, 
+          scale: 1, 
+          duration: 0.7,
+          stagger: 0.08,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: galleryRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
     });
 
-    // Staggered reveal on scroll
-    gsap.fromTo(itemsRef.current,
-      { 
-        opacity: 0, 
-        y: 100, 
-        scale: 0.8, 
-        rotationY: 15 
-      },
-      { 
-        opacity: 1, 
-        y: 0, 
-        scale: 1, 
-        rotationY: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: galleryRef.current,
-          start: 'top 70%',
-          toggleActions: 'play none none reverse'
-        }
-      }
-    );
-
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      clearTimeout(safetyTimer);
+      ctx.revert();
     };
   }, [filteredImages]);
 
@@ -221,6 +223,9 @@ const Gallery = () => {
     setSelectedImage(filteredImages[prevIndex]);
   };
 
+  // Clear stale ref array before rendering
+  itemsRef.current = [];
+
   return (
     <section 
       className="gallery-section" 
@@ -247,12 +252,12 @@ const Gallery = () => {
           ))}
         </div>
 
-        <div className="masonry-grid" ref={gridRef}>
+        <div className="gallery-grid" ref={gridRef}>
           {filteredImages.map((image, index) => (
             <div
               key={image.id}
               ref={(el) => (itemsRef.current[index] = el)}
-              className="masonry-item"
+              className="gallery-item"
               style={{ '--item-height': `${image.height}px` }}
               onClick={() => openLightbox(image)}
             >
@@ -282,12 +287,12 @@ const Gallery = () => {
           ))}
         </div>
         
-        <div className="drag-hint">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <div className="drag-hint flex items-center justify-center gap-2 mt-8 text-gray-400">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="32" height="32" className="w-8 h-8 flex-shrink-0">
             <path d="M18 8L22 12L18 16"></path>
             <path d="M6 8L2 12L6 16"></path>
           </svg>
-          <span>Drag to scroll</span>
+          <span className="text-lg font-medium tracking-widest uppercase">Drag to scroll</span>
         </div>
       </div>
 
@@ -302,7 +307,7 @@ const Gallery = () => {
             </button>
             
             <button className="lightbox-nav lightbox-prev" onClick={handlePrevImage}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24" className="w-6 h-6">
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
             </button>
@@ -314,7 +319,7 @@ const Gallery = () => {
             />
 
             <button className="lightbox-nav lightbox-next" onClick={handleNextImage}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24" className="w-6 h-6">
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
             </button>

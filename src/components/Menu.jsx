@@ -48,7 +48,7 @@ const menuItems = [
     description: 'Rich chocolate espresso with steamed milk and whipped cream, drizzled with cocoa',
     price: '$6.00',
     category: 'Mocha',
-    image: 'https://images.unsplash.com/photo-1578314675249-a6918a397d43?w=400&q=80',
+    image: 'https://images.unsplash.com/photo-1618576230663-9714aecfb99a?w=400&q=80',
     tags: ['Indulgent', 'Sweet']
   },
   {
@@ -70,28 +70,7 @@ const MenuCard = ({ item, index }) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    if (!cardRef.current) return;
-
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (mediaQuery.matches) return;
-
-    // Entrance animation
-    gsap.fromTo(cardRef.current,
-      { y: 100, opacity: 0, rotationY: -15 },
-      {
-        y: 0,
-        opacity: 1,
-        rotationY: 0,
-        duration: 0.8,
-        delay: index * 0.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: cardRef.current,
-          start: 'top 85%',
-          toggleActions: 'play none none reverse'
-        }
-      }
-    );
+    // Media query check has been moved to parent
   }, [index]);
 
   const handleMouseMove = (e) => {
@@ -192,22 +171,46 @@ const Menu = () => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (mediaQuery.matches) return;
 
-    // Title animation
-    gsap.fromTo(titleRef.current,
-      { y: 80, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse'
+    const ctx = gsap.context(() => {
+      // Title animation
+      gsap.fromTo(titleRef.current,
+        { y: 80, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none null'
+          }
         }
+      );
+
+      // Staggered cards animation
+      if (filteredItems.length > 0) {
+        gsap.fromTo('.menu-card',
+          { y: 100, opacity: 0, rotationY: -15 },
+          {
+            y: 0,
+            opacity: 1,
+            rotationY: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 75%',
+              toggleActions: 'play none none null'
+            }
+          }
+        );
       }
-    );
-  }, []);
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [filteredItems]);
 
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
@@ -226,17 +229,18 @@ const Menu = () => {
         </div>
 
         {/* Category Filter */}
-        <div className="menu-filter" role="tablist" aria-label="Menu categories">
+        <div className="menu-filter filter-tabs" role="tablist" aria-label="Menu categories">
           {categories.map((category) => (
             <button
               key={category}
-              className={`filter-btn ${activeCategory === category ? 'active' : ''}`}
+              className={`filter-tab ${activeCategory === category ? 'active' : ''}`}
               onClick={() => handleCategoryClick(category)}
               role="tab"
               aria-selected={activeCategory === category}
               aria-controls="menu-grid"
             >
               {category}
+              <span className="tab-indicator" />
             </button>
           ))}
         </div>
