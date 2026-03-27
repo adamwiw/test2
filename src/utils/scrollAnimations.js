@@ -3,7 +3,7 @@
  * Comprehensive scroll-based animation helpers using Intersection Observer and GSAP
  */
 
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // Register GSAP plugins
